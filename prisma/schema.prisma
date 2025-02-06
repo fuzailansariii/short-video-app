@@ -30,4 +30,5 @@ model Video {
   thumbnailUrl String
   controls     Boolean?
   isValid      Boolean? @default(false)
+  createdAt    DateTime @default(now())
 }
