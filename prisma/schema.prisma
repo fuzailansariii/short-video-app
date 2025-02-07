@@ -23,12 +23,13 @@ model User {
 }
 
 model Video {
-  id           String   @id @default(uuid())
-  title        String
-  description  String
-  videoUrl     String
-  thumbnailUrl String
-  controls     Boolean?
-  isValid      Boolean? @default(false)
-  createdAt    DateTime @default(now())
+  id             String   @id @default(uuid())
+  title          String
+  description    String
+  videoUrl       String
+  thumbnailUrl   String
+  controls       Boolean?
+  isValid        Boolean? @default(false)
+  createdAt      DateTime @default(now())
+  transformation Json?
 }
