@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            throw new Error("No user found.");
+            throw new Error("No user found with this email.");
           }
 
           const isCorrect = await bcrypt.compare(
@@ -41,8 +41,8 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email,
           };
-        } catch (error) {
-          throw new Error("Something went wrong.");
+        } catch (error: any) {
+          throw new Error(error.message);
         }
       },
     }),

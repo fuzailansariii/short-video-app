@@ -1,11 +1,16 @@
 import { z } from "zod";
 
-export const UserModel = z.object({
+export const SignUpModel = z.object({
   username: z.string().min(4, "Username must be at least 4 characters"),
   email: z.string().email("Invalid email address"),
-  password: z.string(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+});
+
+export const SignInModel = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 export const VideoModel = z.object({

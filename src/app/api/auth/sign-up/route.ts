@@ -30,13 +30,13 @@ export const POST = async (req: NextRequest) => {
 
     if (alreadyExistingUser) {
       const errorMessage =
-        alreadyExistingUser.email === email
-          ? "Email is already registered"
-          : "Username is already registered";
+        alreadyExistingUser.username === username
+          ? "Username is already registered"
+          : "Email is already registered";
 
       return NextResponse.json(
         {
-          error: errorMessage,
+          message: errorMessage,
         },
         { status: 400 }
       );
@@ -61,7 +61,7 @@ export const POST = async (req: NextRequest) => {
     console.log("Error: ", error);
     return NextResponse.json(
       {
-        error: "Failed to register user.",
+        message: "Failed to register user.",
         ErrorMessage: error.message,
       },
       { status: 500 }
