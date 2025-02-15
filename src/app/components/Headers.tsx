@@ -1,9 +1,11 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 function Headers() {
+  const router = useRouter();
   const { data: session } = useSession();
 
   const handleSignOut = async () => {
@@ -18,7 +20,7 @@ function Headers() {
   return (
     <div className="flex justify-between px-5 py-3">
       <div className="text-2xl">
-        <h1>Quick Videos</h1>
+        <Link href={"/"}>Quick Videos</Link>
       </div>
       <div className="flex space-x-2 items-center">
         {session ? (
