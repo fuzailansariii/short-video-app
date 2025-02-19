@@ -20,6 +20,7 @@ model User {
   password  String
   createdAt DateTime?
   updatedAt DateTime?
+  video     Video[]
 }
 
 model Video {
@@ -32,4 +33,6 @@ model Video {
   isValid        Boolean? @default(false)
   createdAt      DateTime @default(now())
   transformation Json?
+  User           User?    @relation(fields: [userId], references: [id])
+  userId         String?
 }

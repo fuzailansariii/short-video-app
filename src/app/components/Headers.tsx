@@ -18,7 +18,7 @@ function Headers() {
   };
 
   return (
-    <div className="flex justify-between px-5 py-3">
+    <div className="flex justify-between p-10">
       <div className="text-2xl">
         <Link href={"/"}>Quick Videos</Link>
       </div>
