@@ -1,5 +1,4 @@
 "use client";
-import UploadFile from "@/app/components/UploadFile";
 import UploadVideo from "@/app/components/UploadVideo";
 import { useRef } from "react";
 
@@ -9,13 +8,13 @@ function Dashboard() {
   const openModal = () => {
     modalRef.current?.showModal();
   };
-
-  const handleUploadSuccess = () => {
-    console.log("video upload successfully!");
+  const closeModal = () => {
+    modalRef.current?.close();
   };
+
   return (
     <div className="min-h-[65vh]">
-      <div className="relative flex justify-between">
+      <div className="flex justify-between">
         <button onClick={openModal}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -32,38 +31,7 @@ function Dashboard() {
             />
           </svg>
         </button>
-        {openModal ? (
-          <>
-            <button className="btn" onClick={openModal}>
-              open modal
-            </button>
-            <dialog ref={modalRef} className="modal">
-              <div className="modal-box flex justify-center">
-                <div className="flex flex-col gap-5 rounded-md mx-auto w-full">
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Description"
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                  <UploadFile
-                    onSuccess={handleUploadSuccess}
-                    fileType="video"
-                  />
-                  <button className="btn btn-primary max-w-xs">Upload</button>
-                </div>
-              </div>
-              <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-              </form>
-            </dialog>
-          </>
-        ) : null}
-        {/* <UploadVideo modalRef={modalRef} /> */}
+        <UploadVideo modalRef={modalRef} closeModal={closeModal} />
       </div>
     </div>
   );

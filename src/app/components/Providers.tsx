@@ -23,8 +23,8 @@ export default function Provider({ children }: { children: ReactNode }) {
       const data = await response.data;
       const { signature, expire, token } = data;
       return { signature, expire, token };
-    } catch (error: any) {
-      throw new Error(`Authentication request failed: ${error.message}`);
+    } catch (error) {
+      throw new Error(`Authentication request failed: ${error}`);
     }
   };
 

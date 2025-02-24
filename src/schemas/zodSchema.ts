@@ -13,7 +13,7 @@ export const SignInModel = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-export const VideoModel = z.object({
+export const VideoModal = z.object({
   title: z.string(),
   description: z.string(),
   videoUrl: z.string(),

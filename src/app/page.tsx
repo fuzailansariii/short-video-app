@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen max-w-screen-lg mx-auto my-5 ">
+    <div className="flex flex-col max-w-screen-lg mx-auto my-5 h-screen">
       <div className="flex flex-col gap-5 text-center justify-center items-center w-full h-1/4 px-4">
         <h1 className="font-quicksand  text-3xl font-semibold md:text-5xl">
           Discover & Share Amazing Videos
@@ -14,7 +14,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="flex space-x-5 justify-center items-center w-full ">
+      <div className="flex space-x-5 justify-center items-center w-full mt-4">
         <Link href={"/videos"}>
           <button className="btn btn-secondary">Start Watching Now</button>
         </Link>

@@ -1,7 +1,6 @@
 "use client";
 import { SignInModel } from "@/schemas/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -47,7 +46,8 @@ export default function SignIn() {
         }
       }
       reset();
-    } catch (error: any) {
+    } catch (error) {
+      console.error(error);
       toast.error("Something went wrong.");
     } finally {
       setIsSubmitting(false);

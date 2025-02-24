@@ -1,11 +1,11 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 function Headers() {
-  const router = useRouter();
+  // const router = useRouter();
   const { data: session } = useSession();
 
   const handleSignOut = async () => {
@@ -14,11 +14,12 @@ function Headers() {
       toast.success("Logout Successful.");
     } catch (error) {
       console.error("Error during Sign out");
+      error: error;
     }
   };
 
   return (
-    <div className="flex justify-between p-10">
+    <div className="flex justify-between p-7">
       <div className="text-2xl">
         <Link href={"/"}>Quick Videos</Link>
       </div>
@@ -47,8 +48,12 @@ function Headers() {
           </div>
         ) : (
           <div className="space-x-4">
-            <Link href={"/sign-in"}>Sign In</Link>
-            <Link href={"/sign-up"}>Sign Up</Link>
+            <Link href={"/sign-in"}>
+              <button className="btn">Sign In</button>
+            </Link>
+            <Link href={"/sign-up"}>
+              <button className="btn">Sign Up</button>
+            </Link>
           </div>
         )}
       </div>

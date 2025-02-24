@@ -43,7 +43,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await prisma.user.create({
+    await prisma.user.create({
       data: {
         username,
         email,
@@ -57,12 +57,12 @@ export const POST = async (req: NextRequest) => {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.log("Error: ", error);
     return NextResponse.json(
       {
         message: "Failed to register user.",
-        ErrorMessage: error.message,
+        ErrorMessage: error,
       },
       { status: 500 }
     );

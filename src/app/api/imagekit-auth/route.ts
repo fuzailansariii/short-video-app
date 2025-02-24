@@ -15,6 +15,7 @@ export async function GET() {
     return NextResponse.json(
       {
         message: "Imagekit authentication failed.",
+        error: error,
       },
       { status: 500 }
     );

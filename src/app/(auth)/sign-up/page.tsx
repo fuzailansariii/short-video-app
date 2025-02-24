@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
-import toast, { useToaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 function SignUp() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -47,8 +47,8 @@ function SignUp() {
         toast.error(response.data.message);
       }
       reset();
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+    } catch (error) {
+      toast.error(error || "Something went wrong");
     } finally {
       setIsSubmitting(false);
     }

@@ -70,7 +70,7 @@ export default function UploadFile({
   return (
     <div className="space-y-2">
       <IKUpload
-        className="file-input file-input-bordered w-full max-w-xs"
+        className="file-input file-input-bordered w-full"
         fileName={fileType === "video" ? "video" : "image"}
         useUniqueFileName={true}
         folder={fileType === "video" ? "videos/" : "images/"}

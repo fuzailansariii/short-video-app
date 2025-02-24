@@ -1,6 +1,6 @@
 import { authOptions } from "@/lib/AuthOptions";
 import { prisma } from "@/lib/PrismaClient";
-import { VideoModel } from "@/schemas/zodSchema";
+import { VideoModal } from "@/schemas/zodSchema";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const parsedData = VideoModel.safeParse(await req.json());
+    const parsedData = VideoModal.safeParse(await req.json());
 
     if (
       !parsedData.data?.title ||
