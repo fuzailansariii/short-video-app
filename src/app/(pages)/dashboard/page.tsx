@@ -14,8 +14,12 @@ function Dashboard() {
 
   return (
     <div className="min-h-[65vh]">
-      <div className="flex justify-between">
-        <button onClick={openModal}>
+      <div className="flex w-full justify-between items-center px-10">
+        <div>
+          <h1 className="text-2xl md:text-3xl">Dashboard</h1>
+        </div>
+        <button onClick={openModal} className="flex space-x-2 btn">
+          <p>Upload</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -31,8 +35,9 @@ function Dashboard() {
             />
           </svg>
         </button>
-        <UploadVideo modalRef={modalRef} closeModal={closeModal} />
       </div>
+      <UploadVideo modalRef={modalRef} closeModal={closeModal} />
+      <div></div>
     </div>
   );
 }

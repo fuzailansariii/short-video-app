@@ -6,6 +6,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
+import axios from "axios";
 
 interface UploadVideoProps {
   modalRef: any;
@@ -17,6 +19,8 @@ export default function UploadVideo({
   closeModal,
 }: UploadVideoProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -25,12 +29,45 @@ export default function UploadVideo({
   } = useForm<z.infer<typeof VideoModal>>({
     resolver: zodResolver(VideoModal),
   });
-  const handleUploadSuccess = () => {
-    console.log("video upload successfully!");
+  const handleVideoUpload = (res: IKUploadResponse) => {
+    console.log("Video uploaded: ", res.url);
+    setVideoUrl(res.url);
+  };
+  const handleThumbnailUpload = (res: IKUploadResponse) => {
+    console.log("Thumbnail uploaded: ", res.url);
+    setThumbnailUrl(res.url);
   };
 
   const onSubmit = async (data: z.infer<typeof VideoModal>) => {
-    console.log("Form Submit successfully");
+    console.log("Submitting form: ", data);
+    setIsSubmitting(true);
+    if (!videoUrl) {
+      alert("Please upload a video before submitting.");
+      return;
+    }
+    if (!thumbnailUrl) {
+      alert("Please upload a thumbnail before submitting.");
+      return;
+    }
+
+    try {
+      await axios.post("/api/videos", {
+        title: data.title,
+        description: data.description,
+        videoUrl,
+        thumbnailUrl,
+      });
+
+      console.log("Video details saved in the database!");
+      reset();
+      setVideoUrl(null);
+      setThumbnailUrl(null);
+    } catch (error) {
+      console.error("Form Submit Failed ", error);
+    } finally {
+      setIsSubmitting(false);
+      closeModal();
+    }
   };
 
   return (
@@ -67,11 +104,11 @@ export default function UploadVideo({
             )}
             <div className="space-y-2">
               <p>Upload Video</p>
-              <UploadFile onSuccess={handleUploadSuccess} fileType="video" />
+              <UploadFile onSuccess={handleVideoUpload} fileType="video" />
             </div>
             <div>
               <p>Upload Thumbnail</p>
-              <UploadFile onSuccess={handleUploadSuccess} fileType="image" />
+              <UploadFile onSuccess={handleThumbnailUpload} fileType="image" />
             </div>
             <button type="submit" className="btn btn-primary">
               {isSubmitting ? (
@@ -83,10 +120,10 @@ export default function UploadVideo({
                 "Upload"
               )}
             </button>
-            <button className="btn" onClick={closeModal}>
-              Close
-            </button>
           </div>
+          <button className="btn" onClick={closeModal}>
+            Close
+          </button>
         </div>
         {/* <form method="dialog" className="modal-backdrop">
           <button>close</button>
