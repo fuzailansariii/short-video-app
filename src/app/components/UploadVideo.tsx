@@ -29,6 +29,10 @@ export default function UploadVideo({
   } = useForm<z.infer<typeof VideoModal>>({
     resolver: zodResolver(VideoModal),
   });
+
+  // const onSubmit = (data: z.infer<typeof VideoModal>) => {
+  //   console.log("Form Data: ", data);
+  // };
   const handleVideoUpload = (res: IKUploadResponse) => {
     console.log("Video uploaded: ", res.url);
     setVideoUrl(res.url);
@@ -43,15 +47,17 @@ export default function UploadVideo({
     setIsSubmitting(true);
     if (!videoUrl) {
       alert("Please upload a video before submitting.");
+      setIsSubmitting(false);
       return;
     }
     if (!thumbnailUrl) {
       alert("Please upload a thumbnail before submitting.");
+      setIsSubmitting(false);
       return;
     }
 
     try {
-      await axios.post("/api/videos", {
+      await axios.post("/api/upload-videos", {
         title: data.title,
         description: data.description,
         videoUrl,
@@ -62,24 +68,25 @@ export default function UploadVideo({
       reset();
       setVideoUrl(null);
       setThumbnailUrl(null);
-    } catch (error) {
-      console.error("Form Submit Failed ", error);
+      closeModal();
+    } catch (error: any) {
+      console.error("Form Submit Failed ", error.message);
     } finally {
       setIsSubmitting(false);
-      closeModal();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <dialog ref={modalRef} className="modal">
-        <div className="modal-box flex flex-col justify-center gap-5">
-          <div>
+    <dialog ref={modalRef} className="modal">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex justify-center w-full"
+      >
+        <div className="modal-box flex flex-col justify-center">
+          <div className="flex flex-col gap-5 rounded-md mx-auto w-full">
             <h1 className="text-xl font-semibold">
               Please enter the details of the video
             </h1>
-          </div>
-          <div className="flex flex-col gap-5 rounded-md mx-auto w-full">
             <input
               {...register("title")}
               type="text"
@@ -105,11 +112,10 @@ export default function UploadVideo({
             <div className="space-y-2">
               <p>Upload Video</p>
               <UploadFile onSuccess={handleVideoUpload} fileType="video" />
-            </div>
-            <div>
               <p>Upload Thumbnail</p>
               <UploadFile onSuccess={handleThumbnailUpload} fileType="image" />
             </div>
+
             <button type="submit" className="btn btn-primary">
               {isSubmitting ? (
                 <>
@@ -120,15 +126,12 @@ export default function UploadVideo({
                 "Upload"
               )}
             </button>
+            <button className="btn" onClick={closeModal}>
+              Close
+            </button>
           </div>
-          <button className="btn" onClick={closeModal}>
-            Close
-          </button>
         </div>
-        {/* <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form> */}
-      </dialog>
-    </form>
+      </form>
+    </dialog>
   );
 }

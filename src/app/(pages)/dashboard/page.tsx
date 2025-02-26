@@ -14,7 +14,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-[65vh]">
-      <div className="flex w-full justify-between items-center px-10">
+      <div className="flex w-full justify-between items-center">
         <div>
           <h1 className="text-2xl md:text-3xl">Dashboard</h1>
         </div>
@@ -37,7 +37,6 @@ function Dashboard() {
         </button>
       </div>
       <UploadVideo modalRef={modalRef} closeModal={closeModal} />
-      <div></div>
     </div>
   );
 }

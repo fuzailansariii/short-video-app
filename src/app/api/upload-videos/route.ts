@@ -18,20 +18,26 @@ export async function POST(req: NextRequest) {
     }
 
     const parsedData = VideoModal.safeParse(await req.json());
-
-    if (
-      !parsedData.data?.title ||
-      !parsedData.data?.description ||
-      !parsedData.data?.videoUrl ||
-      !parsedData.data?.thumbnailUrl
-    ) {
+    if (!parsedData.success) {
       return NextResponse.json(
-        {
-          error: "Missing required fields",
-        },
-        { status: 401 }
+        { error: "Invalid or missing required fields" },
+        { status: 400 }
       );
     }
+
+    // if (
+    //   !parsedData.data?.title ||
+    //   !parsedData.data?.description ||
+    //   !parsedData.data?.videoUrl ||
+    //   !parsedData.data?.thumbnailUrl
+    // ) {
+    //   return NextResponse.json(
+    //     {
+    //       error: "Missing required fields",
+    //     },
+    //     { status: 401 }
+    //   );
+    // }
     const videoData = parsedData.data;
 
     const finalVideoData = {
@@ -43,16 +49,24 @@ export async function POST(req: NextRequest) {
       },
     };
 
+    const { title, description, thumbnailUrl, videoUrl } = finalVideoData;
     const newVideo = await prisma.video.create({
-      data: finalVideoData,
+      data: {
+        title,
+        description,
+        thumbnailUrl,
+        videoUrl,
+      },
     });
     return NextResponse.json(
       {
         message: "Video created successfully",
+        video: newVideo,
       },
-      { status: 200 }
+      { status: 201 }
     );
   } catch (error) {
+    console.error("Error creating video:", error);
     return NextResponse.json(
       {
         error: "Error creating new video",
